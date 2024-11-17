@@ -222,11 +222,13 @@
             <p class="text-lg">The IntersectionObserver API is a powerful tool that provides a way to observe changes in the intersection of a target element with its parent or viewport. This modern API revolutionizes how we handle scroll-based animations and lazy loading, making our web applications more efficient and performant.</p>
         </section>
 
-        <section id="how-it-works" class="section min-h-[600px] rounded-lg shadow-md p-8 mb-8">
-            <h2 class="text-3xl font-bold mb-4">How IntersectionObserver Works</h2>
-            <p class="text-lg mb-4">At its core, IntersectionObserver works by watching for changes in how much of an element is visible within its parent or the viewport. It provides a more efficient alternative to scroll event listeners and getBoundingClientRect() calculations.</p>
-            <div class="bg-gray-100 p-4 rounded-md code-block">
-                <pre class="text-sm"><code>
+        <section id="how-it-works" class="section h-[300vh] rounded-lg shadow-md mb-8 p-8">
+            <div class="h-full flex flex-col justify-around">
+                <div>
+                    <h2 class="text-3xl font-bold mb-4" style="background-color: var(--section-bg);">How IntersectionObserver Works</h2>
+                    <p class="text-lg mb-4">At its core, IntersectionObserver works by watching for changes in how much of an element is visible within its parent or the viewport. It provides a more efficient alternative to scroll event listeners and getBoundingClientRect() calculations.</p>
+                    <div class="bg-gray-100 p-4 rounded-md code-block">
+                        <pre class="text-sm"><code>
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -235,8 +237,69 @@ const observer = new IntersectionObserver((entries) => {
     });
 });
 
-observer.observe(targetElement);
-                </code></pre>
+observer.observe(targetElement);</code></pre>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">Key Concepts</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <h4 class="text-xl font-medium">Intersection Ratio</h4>
+                            <p class="text-lg">The intersection ratio indicates how much of the target element is visible within the root's viewport. A value of 0.0 means the target is not visible, while 1.0 means it's fully visible.</p>
+                        </div>
+                        <div class="space-y-4">
+                            <h4 class="text-xl font-medium">Threshold</h4>
+                            <p class="text-lg">Thresholds determine at what intersection ratio the callback should fire. You can set multiple thresholds to track different levels of visibility.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">Advanced Configuration</h3>
+                    <div class="bg-gray-100 p-4 rounded-md code-block mb-4">
+                        <pre class="text-sm"><code>
+const options = {
+    root: document.querySelector('#scrollArea'),
+    rootMargin: '0px 0px -200px 0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1]
+};
+
+const observer = new IntersectionObserver(callback, options);</code></pre>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">Performance Benefits</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="p-6 bg-gray-100 rounded-lg code-block">
+                            <h4 class="text-xl font-medium mb-3">Scroll Events</h4>
+                            <p class="text-lg">Traditional scroll event listeners fire continuously during scroll, causing frequent DOM updates and potential performance issues.</p>
+                        </div>
+                        <div class="p-6 bg-gray-100 rounded-lg code-block">
+                            <h4 class="text-xl font-medium mb-3">IntersectionObserver</h4>
+                            <p class="text-lg">Observers fire only when necessary, using efficient internal browser optimizations to track intersections.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">Real-World Applications</h3>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="p-6 bg-gray-100 rounded-lg code-block">
+                            <h4 class="text-xl font-medium mb-3">Lazy Loading</h4>
+                            <p class="text-lg">Load images and media only when they're about to enter the viewport, improving initial page load times.</p>
+                        </div>
+                        <div class="p-6 bg-gray-100 rounded-lg code-block">
+                            <h4 class="text-xl font-medium mb-3">Infinite Scroll</h4>
+                            <p class="text-lg">Trigger content loading when users reach the bottom of the page for seamless browsing experiences.</p>
+                        </div>
+                        <div class="p-6 bg-gray-100 rounded-lg code-block">
+                            <h4 class="text-xl font-medium mb-3">Analytics</h4>
+                            <p class="text-lg">Track when users view specific content sections for accurate engagement metrics.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
