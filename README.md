@@ -88,7 +88,9 @@ Simply open the `index.html` file in a modern web browser. No build steps or dep
 
 ## Docker Support
 
-You can also run this project using Docker:
+You can run this project using Docker in two ways:
+
+### Using Docker directly:
 
 ```bash
 # Build the Docker image
@@ -98,12 +100,29 @@ docker build -t intersection-observer-demo .
 docker run -p 8080:80 intersection-observer-demo
 ```
 
-Then visit `http://localhost:8080` in your browser.
+### Using Docker Compose (recommended):
+
+```bash
+# Start the service
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop the service
+docker-compose down
+```
 
 The Docker setup uses:
 - Nginx Alpine as the base image for minimal size
 - Port 80 exposed internally, mapped to 8080 by default
 - Static file serving with Nginx's default configuration
+- Volume mounting for live development
+- Health checks to ensure service availability
+- Automatic restart policy
+- Isolated network
+
+Visit `http://localhost:8080` in your browser to view the site.
 
 ## Deployment
 
