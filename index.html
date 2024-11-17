@@ -10,22 +10,26 @@
             scroll-behavior: smooth;
         }
         :root {
-            --menu-bg: #ffffff;
-            --body-bg: #f3f4f6;
-            --text-color: #000000;
+            --menu-bg: #f8fafc;
+            --body-bg: #f1f5f9;
+            --text-color: #334155;
             --section-bg: #ffffff;
-            --code-bg: #f3f4f6;
-            --menu-text: #000000;
-            --code-text: #1f2937;
+            --code-bg: #f8fafc;
+            --menu-text: #334155;
+            --code-text: #475569;
+            --accent-color: #64748b;
+            --hover-color: #0ea5e9;
         }
         [data-theme="dark"] {
-            --menu-bg: #1f2937;
-            --body-bg: #111827;
-            --text-color: #ffffff;
-            --section-bg: #1f2937;
-            --code-bg: #374151;
-            --menu-text: #ffffff;
-            --code-text: #e5e7eb;
+            --menu-bg: #1e293b;
+            --body-bg: #0f172a;
+            --text-color: #e2e8f0;
+            --section-bg: #1e293b;
+            --code-bg: #334155;
+            --menu-text: #e2e8f0;
+            --code-text: #cbd5e1;
+            --accent-color: #94a3b8;
+            --hover-color: #38bdf8;
         }
         body {
             background-color: var(--body-bg);
@@ -33,10 +37,12 @@
             transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
         }
         .section {
-            opacity: 0.7;
+            opacity: 0.95;
             transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
             background-color: var(--section-bg);
             color: var(--text-color);
+            border: 1px solid var(--accent-color);
+            border-opacity: 0.1;
         }
         nav, .mobile-menu {
             background-color: var(--menu-bg);
@@ -45,9 +51,18 @@
         .menu-item {
             color: var(--menu-text);
         }
+        .menu-item.active {
+            @apply font-bold;
+            color: var(--hover-color);
+        }
+        .menu-item:hover {
+            color: var(--hover-color);
+        }
         .code-block {
             background-color: var(--code-bg);
             color: var(--code-text);
+            border: 1px solid var(--accent-color);
+            border-opacity: 0.1;
         }
         pre code {
             color: var(--code-text);
@@ -64,14 +79,14 @@
             width: 48px;
             height: 24px;
             border-radius: 12px;
-            background-color: #e5e7eb;
+            background-color: var(--accent-color);
             transition: background-color 0.3s ease;
             display: flex;
             align-items: center;
             padding: 2px;
         }
         [data-theme="dark"] .switch {
-            background-color: #3b82f6;
+            background-color: var(--hover-color);
         }
         .switch::before {
             content: '';
@@ -128,22 +143,11 @@
             height: 2px;
             bottom: -2px;
             left: 0;
-            background-color: #2563eb; /* Tailwind blue-600 */
+            background-color: var(--hover-color);
             transition: width 0.3s ease-in-out;
         }
         .menu-item:hover::after {
             width: 100%;
-        }
-        .menu-item.active {
-            @apply font-bold;
-            color: #3b82f6;
-        }
-        .menu-item:hover {
-            color: #3b82f6;
-        }
-        [data-theme="dark"] .menu-item.active,
-        [data-theme="dark"] .menu-item:hover {
-            color: #60a5fa;
         }
         .menu-item.active::after {
             width: 100%;
@@ -379,7 +383,7 @@ const observer = new IntersectionObserver(callback, options);</code></pre>
     height: 2px;
     bottom: -2px;
     left: 0;
-    background-color: #2563eb;
+    background-color: var(--hover-color);
     transition: width 0.3s ease-in-out;
 }
 
