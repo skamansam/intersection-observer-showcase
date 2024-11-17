@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IntersectionObserver Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        :root {
+            --menu-bg: #ffffff;
+            --body-bg: #f3f4f6;
+            --text-color: #000000;
+            --section-bg: #ffffff;
+            --code-bg: #f3f4f6;
+            --menu-text: #000000;
+            --code-text: #1f2937;
+        }
+        [data-theme="dark"] {
+            --menu-bg: #1f2937;
+            --body-bg: #111827;
+            --text-color: #ffffff;
+            --section-bg: #1f2937;
+            --code-bg: #374151;
+            --menu-text: #ffffff;
+            --code-text: #e5e7eb;
+        }
+        body {
+            background-color: var(--body-bg);
+            color: var(--text-color);
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+        .section {
+            opacity: 0.7;
+            transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+            background-color: var(--section-bg);
+            color: var(--text-color);
+        }
+        nav, .mobile-menu {
+            background-color: var(--menu-bg);
+            color: var(--menu-text);
+        }
+        .menu-item {
+            color: var(--menu-text);
+        }
+        .code-block {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+        }
+        pre code {
+            color: var(--code-text);
+        }
+        .theme-toggle {
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: #e5e7eb;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 2px;
+        }
+        [data-theme="dark"] .switch {
+            background-color: #3b82f6;
+        }
+        .switch::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        [data-theme="dark"] .switch::before {
+            transform: translateX(24px);
+        }
+        .switch-label {
+            font-size: 0.875rem;
+            user-select: none;
+        }
+        .sun-moon {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+        .sun-moon::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            background-color: var(--menu-bg);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            transition: transform 0.5s ease;
+        }
+        [data-theme="dark"] .sun-moon {
+            transform: rotate(45deg);
+        }
+        [data-theme="dark"] .sun-moon::before {
+            transform: translateX(-50%) translateY(24px);
+        }
+        .menu-item {
+            position: relative;
+            text-decoration: none;
+        }
+        .menu-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #2563eb; /* Tailwind blue-600 */
+            transition: width 0.3s ease-in-out;
+        }
+        .menu-item:hover::after {
+            width: 100%;
+        }
+        .menu-item.active {
+            @apply text-blue-600 font-bold;
+        }
+        .menu-item.active::after {
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            .mobile-menu.open {
+                transform: translateX(0);
+            }
+            /* Adjust underline position for mobile menu items */
+            .mobile-menu .menu-item::after {
+                bottom: -4px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100" data-theme="light">
+    <!-- Mobile Menu Button -->
+    <button id="menuButton" class="fixed top-4 left-4 z-50 p-2 rounded-md shadow-md md:hidden" style="background-color: var(--menu-bg); color: var(--menu-text);">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:block fixed top-0 left-0 right-0 bg-white shadow-md z-40">
+        <div class="container mx-auto px-6 py-4">
+            <ul class="flex justify-center items-center space-x-8" id="desktopMenu">
+                <li><a href="#introduction" class="menu-item hover:text-blue-600">Introduction</a></li>
+                <li><a href="#how-it-works" class="menu-item hover:text-blue-600">How It Works</a></li>
+                <li><a href="#use-cases" class="menu-item hover:text-blue-600">Use Cases</a></li>
+                <li><a href="#performance-benefits" class="menu-item hover:text-blue-600">Performance</a></li>
+                <li><a href="#browser-support" class="menu-item hover:text-blue-600">Browser Support</a></li>
+                <li><a href="#best-practices" class="menu-item hover:text-blue-600">Best Practices</a></li>
+                <li><a href="#implementation-details" class="menu-item hover:text-blue-600">Implementation Details</a></li>
+                <li>
+                    <button class="theme-toggle ml-4" aria-label="Toggle dark mode">
+                        <span class="switch-label hidden md:inline">Light</span>
+                        <div class="switch"></div>
+                        <span class="switch-label hidden md:inline">Dark</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-menu fixed top-0 left-0 h-full w-64 shadow-lg z-40 md:hidden">
+        <div class="pt-16 px-4">
+            <div class="flex justify-between items-center mb-6 px-2">
+                <button class="theme-toggle" aria-label="Toggle dark mode">
+                    <span class="switch-label">Light</span>
+                    <div class="switch"></div>
+                    <span class="switch-label">Dark</span>
+                </button>
+            </div>
+            <ul class="space-y-4" id="mobileMenu">
+                <li><a href="#introduction" class="menu-item block hover:text-blue-600">Introduction</a></li>
+                <li><a href="#how-it-works" class="menu-item block hover:text-blue-600">How It Works</a></li>
+                <li><a href="#use-cases" class="menu-item block hover:text-blue-600">Use Cases</a></li>
+                <li><a href="#performance-benefits" class="menu-item block hover:text-blue-600">Performance</a></li>
+                <li><a href="#browser-support" class="menu-item block hover:text-blue-600">Browser Support</a></li>
+                <li><a href="#best-practices" class="menu-item block hover:text-blue-600">Best Practices</a></li>
+                <li><a href="#implementation-details" class="menu-item block hover:text-blue-600">Implementation Details</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-20 md:pt-24">
+        <section id="introduction" class="section min-h-[400px] rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-4">Introduction to IntersectionObserver</h2>
+            <p class="text-lg">The IntersectionObserver API is a powerful tool that provides a way to observe changes in the intersection of a target element with its parent or viewport. This modern API revolutionizes how we handle scroll-based animations and lazy loading, making our web applications more efficient and performant.</p>
+        </section>
+
+        <section id="how-it-works" class="section min-h-[600px] rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-4">How IntersectionObserver Works</h2>
+            <p class="text-lg mb-4">At its core, IntersectionObserver works by watching for changes in how much of an element is visible within its parent or the viewport. It provides a more efficient alternative to scroll event listeners and getBoundingClientRect() calculations.</p>
+            <div class="bg-gray-100 p-4 rounded-md code-block">
+                <pre class="text-sm"><code>
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // Element is visible
+        }
+    });
+});
+
+observer.observe(targetElement);
+                </code></pre>
+            </div>
+        </section>
+
+        <section id="use-cases" class="section min-h-[500px] rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-4">Common Use Cases</h2>
+            <ul class="list-disc list-inside space-y-4 text-lg">
+                <li>Lazy loading images and videos</li>
+                <li>Infinite scrolling implementations</li>
+                <li>Scroll-based animations</li>
+                <li>Content visibility tracking</li>
+                <li>Ad viewability measurements</li>
+            </ul>
+        </section>
+
+        <section id="performance-benefits" class="section min-h-[450px] rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-4">Performance Benefits</h2>
+            <p class="text-lg mb-4">IntersectionObserver provides significant performance improvements over traditional scroll-based solutions:</p>
+            <ul class="list-disc list-inside space-y-2 text-lg">
+                <li>Runs off the main thread</li>
+                <li>Batches DOM queries</li>
+                <li>Reduces unnecessary calculations</li>
+                <li>Prevents layout thrashing</li>
+            </ul>
+        </section>
+
+        <section id="browser-support" class="section min-h-[350px] rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-4">Browser Support</h2>
+            <p class="text-lg mb-4">IntersectionObserver enjoys broad browser support across modern browsers:</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-4 bg-gray-100 rounded">Chrome ✅</div>
+                <div class="p-4 bg-gray-100 rounded">Firefox ✅</div>
+                <div class="p-4 bg-gray-100 rounded">Safari ✅</div>
+                <div class="p-4 bg-gray-100 rounded">Edge ✅</div>
+            </div>
+        </section>
+
+        <section id="best-practices" class="section min-h-[550px] rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-4">Best Practices</h2>
+            <div class="space-y-4 text-lg">
+                <p>When implementing IntersectionObserver, keep these best practices in mind:</p>
+                <ul class="list-disc list-inside space-y-2">
+                    <li>Disconnect observers when they're no longer needed</li>
+                    <li>Use appropriate threshold values for your use case</li>
+                    <li>Consider using rootMargin for better UX</li>
+                    <li>Implement fallbacks for older browsers</li>
+                    <li>Keep callback functions lightweight</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="implementation-details" class="section min-h-[800px] rounded-lg shadow-md p-8 mb-8">
+            <h2 class="text-3xl font-bold mb-6">Implementation Details</h2>
+            
+            <div class="space-y-8">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">1. Navigation Menu Implementation</h3>
+                    <div class="space-y-4">
+                        <p class="text-lg">The navigation system in this showcase demonstrates several key features:</p>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-lg">
+                            <li><span class="font-semibold">Responsive Design:</span> Separate desktop and mobile menus with smooth transitions</li>
+                            <li><span class="font-semibold">Animated Underlines:</span> CSS-based animations using pseudo-elements and transitions</li>
+                            <li><span class="font-semibold">Single Active State:</span> Logic to ensure only one menu item is active at a time</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">2. CSS Animation Details</h3>
+                    <div class="space-y-4">
+                        <p class="text-lg">The animated underline effect is achieved through careful CSS implementation:</p>
+                        <div class="bg-gray-100 p-4 rounded-md code-block">
+                            <pre class="text-sm"><code>
+.menu-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #2563eb;
+    transition: width 0.3s ease-in-out;
+}
+
+.menu-item.active::after {
+    width: 100%;
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">3. IntersectionObserver Configuration</h3>
+                    <div class="space-y-4">
+                        <p class="text-lg">The observer is configured with multiple thresholds for precise tracking:</p>
+                        <div class="bg-gray-100 p-4 rounded-md code-block">
+                            <pre class="text-sm"><code>
+const observerOptions = {
+    threshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
+    rootMargin: '-20% 0px -20% 0px'
+};</code></pre>
+                        </div>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-lg">
+                            <li><span class="font-semibold">Multiple Thresholds:</span> Allow for more granular visibility tracking</li>
+                            <li><span class="font-semibold">Root Margin:</span> Creates a buffer zone for smoother transitions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">4. Visibility Tracking System</h3>
+                    <div class="space-y-4">
+                        <p class="text-lg">A sophisticated tracking system ensures accurate menu highlighting:</p>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-lg">
+                            <li>Uses Map to store visibility ratios for each section</li>
+                            <li>Compares intersection ratios to determine the most visible section</li>
+                            <li>Updates menu items based on the highest visibility ratio</li>
+                        </ul>
+                        <div class="bg-gray-100 p-4 rounded-md mt-4 code-block">
+                            <pre class="text-sm"><code>
+// Example visibility tracking
+sectionVisibility.set(entry.target.id, {
+    visible: entry.isIntersecting,
+    ratio: entry.intersectionRatio
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">5. Mobile Optimization</h3>
+                    <div class="space-y-4">
+                        <p class="text-lg">Special considerations for mobile devices include:</p>
+                        <ul class="list-disc list-inside space-y-2 pl-4 text-lg">
+                            <li>Slide-out menu with smooth transitions</li>
+                            <li>Adjusted underline positioning for touch targets</li>
+                            <li>Automatic menu closing after selection</li>
+                            <li>Responsive layout adjustments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        const themeToggleButtons = document.querySelectorAll('.theme-toggle');
+        themeToggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            });
+        });
+    </script>
+</body>
+</html>
