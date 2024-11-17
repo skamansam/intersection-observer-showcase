@@ -86,6 +86,25 @@ Special considerations for mobile devices include:
 
 Simply open the `index.html` file in a modern web browser. No build steps or dependencies required!
 
+## Docker Support
+
+You can also run this project using Docker:
+
+```bash
+# Build the Docker image
+docker build -t intersection-observer-demo .
+
+# Run the container
+docker run -p 8080:80 intersection-observer-demo
+```
+
+Then visit `http://localhost:8080` in your browser.
+
+The Docker setup uses:
+- Nginx Alpine as the base image for minimal size
+- Port 80 exposed internally, mapped to 8080 by default
+- Static file serving with Nginx's default configuration
+
 ## Deployment
 
 This project is automatically deployed to GitHub Pages using GitHub Actions. The deployment workflow:
