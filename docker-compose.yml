@@ -5,10 +5,10 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    image: intersection-observer-demo
+    image: localhost/intersection-observer-demo:latest
     container_name: intersection-observer
     ports:
-      - "8080:80"
+      - "10000:80"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:80"]

@@ -97,7 +97,7 @@ You can run this project using Docker in two ways:
 docker build -t intersection-observer-demo .
 
 # Run the container
-docker run -p 8080:80 intersection-observer-demo
+docker run -p 10000:80 intersection-observer-demo
 ```
 
 ### Using Docker Compose (recommended):
@@ -115,14 +115,14 @@ docker-compose down
 
 The Docker setup uses:
 - Nginx Alpine as the base image for minimal size
-- Port 80 exposed internally, mapped to 8080 by default
+- Port 80 exposed internally, mapped to 10000 by default
 - Static file serving with Nginx's default configuration
 - Volume mounting for live development
 - Health checks to ensure service availability
 - Automatic restart policy
 - Isolated network
 
-Visit `http://localhost:8080` in your browser to view the site.
+Visit `http://localhost:10000` in your browser to view the site.
 
 ## Deployment
 
