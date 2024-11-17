@@ -86,6 +86,20 @@ Special considerations for mobile devices include:
 
 Simply open the `index.html` file in a modern web browser. No build steps or dependencies required!
 
+## Deployment
+
+This project is automatically deployed to GitHub Pages using GitHub Actions. The deployment workflow:
+1. Triggers on pushes to the main branch
+2. Uploads the project files as artifacts
+3. Deploys to GitHub Pages
+
+To enable GitHub Pages deployment:
+1. Go to your repository settings
+2. Navigate to the "Pages" section
+3. Under "Source", select "GitHub Actions"
+
+The site will be available at `https://[username].github.io/intersection-observer-showcase/`
+
 ## Browser Support
 
 This demo works best in modern browsers that support the IntersectionObserver API, which includes:
