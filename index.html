@@ -19,6 +19,15 @@
             --code-text: #475569;
             --accent-color: #64748b;
             --hover-color: #0ea5e9;
+
+            /* Light mode section colors */
+            --section-bg-1: #fff7ed;  /* Warm orange */
+            --section-bg-2: #f0fdf4;  /* Soft green */
+            --section-bg-3: #f0f9ff;  /* Light blue */
+            --section-bg-4: #fdf4ff;  /* Soft purple */
+            --section-bg-5: #fff1f2;  /* Light pink */
+            --section-bg-6: #fafaf9;  /* Warm gray */
+            --section-bg-7: #f8fafc;  /* Cool gray */
         }
         [data-theme="dark"] {
             --menu-bg: #1e293b;
@@ -30,6 +39,15 @@
             --code-text: #cbd5e1;
             --accent-color: #94a3b8;
             --hover-color: #38bdf8;
+
+            /* Dark mode section colors */
+            --section-bg-1: #422006;  /* Dark orange */
+            --section-bg-2: #052e16;  /* Dark green */
+            --section-bg-3: #082f49;  /* Dark blue */
+            --section-bg-4: #4a044e;  /* Dark purple */
+            --section-bg-5: #451a1a;  /* Dark red */
+            --section-bg-6: #1c1917;  /* Dark warm gray */
+            --section-bg-7: #1e293b;  /* Dark cool gray */
         }
         body {
             background-color: var(--body-bg);
@@ -39,8 +57,6 @@
         .section {
             opacity: 0.95;
             transition: opacity 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-            background-color: var(--section-bg);
-            color: var(--text-color);
             border: 1px solid var(--accent-color);
             border-opacity: 0.1;
         }
@@ -221,15 +237,15 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 pt-20 md:pt-24">
-        <section id="introduction" class="section min-h-[400px] rounded-lg shadow-md p-8 mb-8">
+        <section id="introduction" class="section min-h-[400px] rounded-lg shadow-md p-8 mb-8" style="background-color: var(--section-bg-1);">
             <h2 class="text-3xl font-bold mb-4">Introduction to IntersectionObserver</h2>
             <p class="text-lg">The IntersectionObserver API is a powerful tool that provides a way to observe changes in the intersection of a target element with its parent or viewport. This modern API revolutionizes how we handle scroll-based animations and lazy loading, making our web applications more efficient and performant.</p>
         </section>
 
-        <section id="how-it-works" class="section h-[300vh] rounded-lg shadow-md mb-8 p-8">
+        <section id="how-it-works" class="section h-[300vh] rounded-lg shadow-md mb-8 p-8" style="background-color: var(--section-bg-2);">
             <div class="h-full flex flex-col justify-around">
                 <div>
-                    <h2 class="text-3xl font-bold mb-4" style="background-color: var(--section-bg);">How IntersectionObserver Works</h2>
+                    <h2 class="text-3xl font-bold mb-4" style="background-color: var(--section-bg-2);">How IntersectionObserver Works</h2>
                     <p class="text-lg mb-4">At its core, IntersectionObserver works by watching for changes in how much of an element is visible within its parent or the viewport. It provides a more efficient alternative to scroll event listeners and getBoundingClientRect() calculations.</p>
                     <div class="bg-gray-100 p-4 rounded-md code-block">
                         <pre class="text-sm"><code>
@@ -307,7 +323,7 @@ const observer = new IntersectionObserver(callback, options);</code></pre>
             </div>
         </section>
 
-        <section id="use-cases" class="section min-h-[500px] rounded-lg shadow-md p-8 mb-8">
+        <section id="use-cases" class="section min-h-[500px] rounded-lg shadow-md p-8 mb-8" style="background-color: var(--section-bg-3);">
             <h2 class="text-3xl font-bold mb-4">Common Use Cases</h2>
             <ul class="list-disc list-inside space-y-4 text-lg">
                 <li>Lazy loading images and videos</li>
@@ -318,7 +334,7 @@ const observer = new IntersectionObserver(callback, options);</code></pre>
             </ul>
         </section>
 
-        <section id="performance-benefits" class="section min-h-[450px] rounded-lg shadow-md p-8 mb-8">
+        <section id="performance-benefits" class="section min-h-[450px] rounded-lg shadow-md p-8 mb-8" style="background-color: var(--section-bg-4);">
             <h2 class="text-3xl font-bold mb-4">Performance Benefits</h2>
             <p class="text-lg mb-4">IntersectionObserver provides significant performance improvements over traditional scroll-based solutions:</p>
             <ul class="list-disc list-inside space-y-2 text-lg">
@@ -329,7 +345,7 @@ const observer = new IntersectionObserver(callback, options);</code></pre>
             </ul>
         </section>
 
-        <section id="browser-support" class="section min-h-[350px] rounded-lg shadow-md p-8 mb-8">
+        <section id="browser-support" class="section min-h-[350px] rounded-lg shadow-md p-8 mb-8" style="background-color: var(--section-bg-5);">
             <h2 class="text-3xl font-bold mb-4">Browser Support</h2>
             <p class="text-lg mb-4">IntersectionObserver enjoys broad browser support across modern browsers:</p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
@@ -340,7 +356,7 @@ const observer = new IntersectionObserver(callback, options);</code></pre>
             </div>
         </section>
 
-        <section id="best-practices" class="section min-h-[550px] rounded-lg shadow-md p-8 mb-8">
+        <section id="best-practices" class="section min-h-[550px] rounded-lg shadow-md p-8 mb-8" style="background-color: var(--section-bg-6);">
             <h2 class="text-3xl font-bold mb-4">Best Practices</h2>
             <div class="space-y-4 text-lg">
                 <p>When implementing IntersectionObserver, keep these best practices in mind:</p>
@@ -354,7 +370,7 @@ const observer = new IntersectionObserver(callback, options);</code></pre>
             </div>
         </section>
 
-        <section id="implementation-details" class="section min-h-[800px] rounded-lg shadow-md p-8 mb-8">
+        <section id="implementation-details" class="section min-h-[800px] rounded-lg shadow-md p-8 mb-8" style="background-color: var(--section-bg-7);">
             <h2 class="text-3xl font-bold mb-6">Implementation Details</h2>
             
             <div class="space-y-8">
