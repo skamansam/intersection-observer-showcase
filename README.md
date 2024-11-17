@@ -1,5 +1,7 @@
 > This project was created using Windsurf IDE, the world's first agentic IDE, to demonstrate the capabilities of the IntersectionObserver API. Windsurf enables direct interaction with AI assistants while coding, making it easier to create and explain complex implementations like this showcase.
 
+⚠️ **Disclaimer**: This codebase was generated entirely by AI. While efforts have been made to ensure quality and functionality, the code may contain errors, inefficiencies, or redundancies. Always review, understand, and test code before using it in your own projects, regardless of its source. This repository serves as a demonstration and learning resource rather than production-ready code.
+
 # IntersectionObserver Showcase
 
 A simple demonstration of the IntersectionObserver API with responsive navigation and dynamic content highlighting.
