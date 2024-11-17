@@ -135,7 +135,15 @@
             width: 100%;
         }
         .menu-item.active {
-            @apply text-blue-600 font-bold;
+            @apply font-bold;
+            color: #3b82f6;
+        }
+        .menu-item:hover {
+            color: #3b82f6;
+        }
+        [data-theme="dark"] .menu-item.active,
+        [data-theme="dark"] .menu-item:hover {
+            color: #60a5fa;
         }
         .menu-item.active::after {
             width: 100%;
@@ -157,14 +165,14 @@
 </head>
 <body class="bg-gray-100" data-theme="light">
     <!-- Mobile Menu Button -->
-    <button id="menuButton" class="fixed top-4 left-4 z-50 p-2 rounded-md shadow-md md:hidden" style="background-color: var(--menu-bg); color: var(--menu-text);">
+    <button id="menuButton" class="fixed top-4 left-4 z-50 p-2 rounded-md shadow-md md:hidden hover:bg-opacity-80" style="background-color: var(--menu-bg); color: var(--menu-text);">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
     </button>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden md:block fixed top-0 left-0 right-0 bg-white shadow-md z-40">
+    <nav class="hidden md:block fixed top-0 left-0 right-0 shadow-md z-40" style="background-color: var(--menu-bg); color: var(--menu-text);">
         <div class="container mx-auto px-6 py-4">
             <ul class="flex justify-center items-center space-x-8" id="desktopMenu">
                 <li><a href="#introduction" class="menu-item hover:text-blue-600">Introduction</a></li>
@@ -186,7 +194,7 @@
     </nav>
 
     <!-- Mobile Navigation -->
-    <div class="mobile-menu fixed top-0 left-0 h-full w-64 shadow-lg z-40 md:hidden">
+    <div class="mobile-menu fixed top-0 left-0 h-full w-64 shadow-lg z-40 md:hidden" style="background-color: var(--menu-bg); color: var(--menu-text);">
         <div class="pt-16 px-4">
             <div class="flex justify-between items-center mb-6 px-2">
                 <button class="theme-toggle" aria-label="Toggle dark mode">
